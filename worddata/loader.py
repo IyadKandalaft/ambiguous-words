@@ -63,10 +63,20 @@ def load_words_graph(file:str, primary_word_parser:str, words_parser:str,
                 word_scores_iter = iter(word_scores)
                 
                 for word in words:
+                    # There are many words with funky internatinoal characters
+                    #if not _hasAlphaOnly(word):
+                    #    logger.warn(f"Primary word {primary_word} has a related word ' {word} ' that contains non-alpha characters - skipping")
+                    #    try:
+                    #        next(word_scores_iter)
+                    #    except:
+                    #        pass
+                    #    continue
+
                     try:
                         score = float(next(word_scores_iter))
                     except StopIteration:
-                        logger.warn(f"{primary_word}'s related Word '{word}' does not have a matching score")
+                        logger.warn(f"Primary word {primary_word} has a related word ' {word} ' without an associated score - settings score to 0")
+                        score = 0
 
                     if score < score_cutoff:
                         continue
@@ -153,3 +163,12 @@ def generate_wordpacks(wordpacks_file, wordpack_title_format='^(### \d+ ###)', t
 
         if ( wordpack_title != None and wordpack_dict):
             yield wordpack_title, wordpack_dict
+
+def _hasAlphaOnly(input):
+    '''
+    Determines if the input contains alpha characters and spaces
+
+    Returns:
+        bool - True if the input contains only alpha charactesr and spaces or False otherwise
+    '''
+    return bool(re.search(r'^[A-z -]+$', input))

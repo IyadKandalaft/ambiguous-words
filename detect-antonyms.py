@@ -179,18 +179,9 @@ def get_ambiguous_antonyms(antonyms_graph:Graph, synonyms_graph:Graph, wordpack_
                 if ( related_term in antonyms ):
                     return_ds[base_term]['overlap'].append(base_term2)
                     return_ds[base_term]['related_terms'].append(related_term)
-                    logger.debug(f"Base term '{base_term}' and its related term '{related_term}' are ambiguous with base term group '{base_term2}'")
+                    logger.info(f"Base term '{base_term}' and its related term '{related_term}' are ambiguous with base term group '{base_term2}'")
         
     return return_ds
-
-def _hasAlphaOnly(input):
-    '''
-    Determines if the input contains alpha characters and spaces
-
-    Returns:
-        bool - True if the input contains only alpha charactesr and spaces or False otherwise
-    '''
-    return bool(re.search(r'^[A-z ]+$', input))
 
 if __name__ == "__main__":
     main()
