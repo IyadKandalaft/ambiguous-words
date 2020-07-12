@@ -77,8 +77,7 @@ optional arguments:
   -p REGEX, --primary-word-regex REGEX
                         Regex to parse the list of words in the word relations file (default: ^#([^\[]+))
   -a REGEX, --antonym-regex REGEX
-                        Regex to parse the list of antonyms in the word relations file (default: \[(?:contrast-
-                        manual|contrast)=\d+\.\d+\]:([^;]+))
+                        Regex to parse the list of antonyms in the word relations file (default: \[(?:contrast-manual|contrast)=\d+\.\d+\]:([^;]+))
   -as REGEX, --antonym-score-regex REGEX
                         Regex to parse the score of antonyms in the word relations file (default: \[(?:contrast-manual|contrast)-score\]:([^;]+))
   -s REGEX, --synonym-regex REGEX
@@ -92,3 +91,11 @@ optional arguments:
   -o PATH, --output PATH
                         Highlighted antonyms output file path (default: output.txt)
 ```
+Note that the --antonym-regex and --antonym-score-regex go hand-in-hand.  If --antonym-regex matches one or more classes of antonyms, then --antonym-score-regex must match the scores of the same antonym classes.  
+
+In the following example, both the word and score matching regex match the *contrast* and *contrast-manual* words groups and *contrast-score* and *contrast-manual-score* scores respectively.
+
+    antonym words matching regex: \[(?:contrast-manual|contrast)=\d+\.\d+\]:([^;]+)
+    antonym score matching regex: \[(?:contrast-manual|contrast)-score\]:([^;]+)
+
+In addition, --synonym-regex and --synonym-score-regex go hand-in-hand.
