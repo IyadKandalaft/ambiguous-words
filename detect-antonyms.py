@@ -39,7 +39,7 @@ args = None
 def main():
     '''Main function that gets called when the script is executed'''
     
-    args = get_config()
+    args, parser = get_config()
 
     # Create a graph of related antonyms from our data
     antonym_graph = load_words_graph(args.relations, args.primary_word_regex, args.antonym_regex, args.antonym_score_regex, args.word_delimeter)
@@ -81,60 +81,71 @@ def get_config():
         argparse.args -- An object containing the parsed command line parameters
     '''
     parser = argparse.ArgumentParser(
-        prog='highlight-antonyms.py',
-        description="Take word packs as input and output a file with the antonyms highlighted.")
+        prog=__file__,
+        description="Take word packs as input and output a file with the antonyms highlighted.",
+        formatter_class=lambda prog: argparse.ArgumentDefaultsHelpFormatter(prog, width=120))
 
     parser.add_argument(
         "-w", "--wordpacks",
+        metavar='PATH',
         required=True,
         help="Wordpacks file to use as input")
     parser.add_argument(
         "-r", "--relations",
+        metavar='PATH',
         required=True,
         help="Word relations file to use as input")
     parser.add_argument(
         "-p", "--primary-word-regex",
+        metavar='REGEX',
         required=False, 
         default="^#([^\[]+)",
         help="Regex to parse the list of words in the word relations file")
     parser.add_argument(
         "-a", "--antonym-regex",
+        metavar='REGEX',
         required=False,
         default="\[(?:contrast-manual|contrast)=\d+\.\d+\]:([^;]+)",
         help="Regex to parse the list of antonyms in the word relations file")
     parser.add_argument(
         "-as", "--antonym-score-regex",
         required=False,
+        metavar='REGEX',
         default="\[(?:contrast-manual|contrast)-score\]:([^;]+)",
         help="Regex to parse the score of antonyms in the word relations file")
     parser.add_argument(
         "-s", "--synonym-regex",
         required=False,
-        default="\[(?:syn|syn-[^=\]]+)=\d+\.\d+\]:([^;]+)",
+        metavar='REGEX',
+        default="\[(?:syn-?[^=\]]+|associated-?[^=\]]+)=\d+\.\d+\]:([^;]+)",
         help="Regex to parse the list of synonyms in the word relations file")
     parser.add_argument(
         "-ss", "--synonym-score-regex",
+        metavar='REGEX',
         required=False,
-        default="\[(?:syn|syn-.*?)-score\]:([^;]+)",
+        default="\[(?:syn-?.*?|associated-?.*?)-score\]:([^;]+)",
         help="Regex to parse the score of synonyms in the word relations file")
     parser.add_argument(
         "-d", "--word-delimeter",
+        metavar='CHAR',
         required=False,
         default="|",
         help="Delimiter to split the text matched by regex --antonym-regex into a list")
     parser.add_argument(
         "-c", "--score-cutoff",
+        metavar='NUM',
         required=False,
-        default="5.0",
+        default="8.0",
         type=float,
         help="Eliminate synonyms that are below the provided value")
     parser.add_argument(
         "-o", "--output",
+        metavar='PATH',
         required=False,
         default="output.txt",
         help="Highlighted antonyms output file path")
 
-    return parser.parse_args()
+    return parser.parse_args(), parser
 
 def get_ambiguous_antonyms(antonyms_graph:Graph, synonyms_graph:Graph, wordpack_dict:dict):
     '''Iterates through a wordpack and determines if a base term's related terms are antonyms of another base term in the wordpack.
