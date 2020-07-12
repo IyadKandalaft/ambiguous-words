@@ -81,9 +81,9 @@ optional arguments:
   -as REGEX, --antonym-score-regex REGEX
                         Regex to parse the score of antonyms in the word relations file (default: \[(?:contrast-manual|contrast)-score\]:([^;]+))
   -s REGEX, --synonym-regex REGEX
-                        Regex to parse the list of synonyms in the word relations file (default: \[(?:syn-?[^=\]]+|associated-?[^=\]]+)=\d+\.\d+\]:([^;]+))
+                        Regex to parse the list of synonyms in the word relations file (default: \[(?:syn|associated)[^=\]]*?=\d+\.\d+\]:([^;]+))
   -ss REGEX, --synonym-score-regex REGEX
-                        Regex to parse the score of synonyms in the word relations file (default: \[(?:syn-?.*?|associated-?.*?)-score\]:([^;]+))
+                        Regex to parse the score of synonyms in the word relations file (default: \[(?:syn|associated).*?-score\]:([^;]+))
   -d CHAR, --word-delimeter CHAR
                         Delimiter to split the text matched by regex --antonym-regex into a list (default: |)
   -c NUM, --score-cutoff NUM

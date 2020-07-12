@@ -117,13 +117,13 @@ def get_config():
         "-s", "--synonym-regex",
         required=False,
         metavar='REGEX',
-        default="\[(?:syn-?[^=\]]+|associated-?[^=\]]+)=\d+\.\d+\]:([^;]+)",
+        default='\[(?:syn|associated)[^=\]]*?=\d+\.\d+\]:([^;]+)',
         help="Regex to parse the list of synonyms in the word relations file")
     parser.add_argument(
         "-ss", "--synonym-score-regex",
         metavar='REGEX',
         required=False,
-        default="\[(?:syn-?.*?|associated-?.*?)-score\]:([^;]+)",
+        default='\[(?:syn|associated).*?-score\]:([^;]+)',
         help="Regex to parse the score of synonyms in the word relations file")
     parser.add_argument(
         "-d", "--word-delimeter",
