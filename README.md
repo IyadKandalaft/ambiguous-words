@@ -99,3 +99,37 @@ In the following example, both the word and score matching regex match the *cont
     antonym score matching regex: \[(?:contrast-manual|contrast)-score\]:([^;]+)
 
 In addition, --synonym-regex and --synonym-score-regex go hand-in-hand.
+
+
+### detect-synonyms.py
+
+```
+usage: detect-synonyms.py [-h] -w PATH -r PATH [-p REGEX] [-s REGEX] [-ss REGEX] [-d CHAR] [-c NUM] [-o PATH]
+
+Take word packs as input and output a file with the synonyms highlighted.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -w PATH, --wordpacks PATH
+                        Wordpacks file to use as input (default: None)
+  -r PATH, --relations PATH
+                        Word relations file to use as input (default: None)
+  -p REGEX, --primary-word-regex REGEX
+                        Regex to parse the list of words in the word relations file (default: ^#([^\[]+))
+  -s REGEX, --synonym-regex REGEX
+                        Regex to parse the list of synonyms in the word relations file (default:
+                        \[(?:associated|syn|broader|custom-
+                        list|handcraft|memberof|narrower)[\w\s\-\{\}]*?=\d+\.\d+\]:([^;]+))
+  -ss REGEX, --synonym-score-regex REGEX
+                        Regex to parse the score of synonyms in the word relations file (default:
+                        \[(?:associated|syn|broader|custom-
+                        list|handcraft|memberof|narrowe)[\w\s\-\{\}]*?-score\]:([^;]+))
+  -d CHAR, --word-delimeter CHAR
+                        Delimiter to split the text matched by regex --synonym-regex into a list (default: |)
+  -c NUM, --score-cutoff NUM
+                        Eliminate synonyms that are below the provided value (default: 6.0)
+  -o PATH, --output PATH
+                        Highlighted synonyms output file path (default: output.txt)
+```
+
+Note that --synonym-regex and --synonym-score-regex go hand-in-hand and must match an equal number of groups.
